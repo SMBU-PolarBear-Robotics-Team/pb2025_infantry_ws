@@ -19,10 +19,6 @@ repositories:
     url: https://github.com/SMBU-PolarBear-Robotics-Team/rmoss_core.git
     version: humble
 
-  src/dependencies/rmoss_gazebo:
-    url: https://github.com/SMBU-PolarBear-Robotics-Team/rmoss_gazebo.git
-    version: humble
-
   src/dependencies/rmoss_gz_resources:
     url: https://github.com/SMBU-PolarBear-Robotics-Team/rmoss_gz_resources.git
     version: humble
