@@ -58,7 +58,9 @@ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release --paralle
 ros2 launch pb2025_infantry_bringup bringup_launch.py
 ```
 
-#### 2.4.2 Tools
+### 2.4.2 Tools
+
+云台键盘控制
 
 ```bash
 ros2 run teleop_gimbal_keyboard teleop_gimbal_keyboard
