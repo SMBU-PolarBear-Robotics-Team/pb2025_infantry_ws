@@ -14,7 +14,8 @@ WORKDIR /root/ros_ws
 
 # install dependencies and some tools
 RUN rosdep install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
-    apt install ros-humble-foxglove-bridge wget htop vim -y
+    apt install ros-humble-foxglove-bridge wget htop vim -y && \
+    pip install xmacro
 
 # Install OpenVINO-2023.3.0
 RUN wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB && \
