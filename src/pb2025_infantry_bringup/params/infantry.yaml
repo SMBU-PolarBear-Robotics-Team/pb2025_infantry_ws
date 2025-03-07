@@ -1,0 +1,104 @@
+standard_robot_pp_ros2:
+  ros__parameters:
+    device_name: /dev/ttyACM0
+    baud_rate: 115200
+    flow_control: none
+    parity: none
+    stop_bits: "1"
+    debug: false
+
+joint_state_publisher:
+  ros__parameters:
+    use_sim_time: false
+    rate: 200
+    source_list: ["serial/gimbal_joint_state"]
+    offset_timestamp: 0.0
+
+robot_state_publisher:
+  ros__parameters:
+    use_sim_time: false
+    publish_frequency: 200.0
+
+hik_camera_ros2_driver:
+  ros__parameters:
+    use_sim_time: false
+    camera_info_url: "package://pb2025_infantry_bringup/params/camera_info.yaml"
+    pixel_format: "BayerRG8"        # Recommended Option: RGB8Packed, BayerRG8
+    adc_bit_depth: "Bits_8"         # If using BayerRG8, adc_bit_depth must be Bits_8; otherwise, it can be Bits_8 or Bits_12
+    use_sensor_data_qos: true
+    camera_name: "front_industrial_camera"
+    # frame_id: "optical_frame"     # If not set, it will be set as <camera_name>_optical_frame
+    # camera_topic: "image"         # If not set, it will be set as <camera_name>/image
+
+    acquisition_frame_rate: 200.0   # Unit: Hz
+    exposure_time: 1500             # Unit: us
+    gain: 12.0                      # Range: 0.0 ~ 16.9, Unit: dB
+
+armor_detector_opencv:
+  ros__parameters:
+    use_sim_time: false
+    debug: false
+    camera_name: "front_industrial_camera"
+
+    detect_color: 0
+    binary_thres: 80
+
+    light.min_ratio: 0.1
+    armor.min_light_ratio: 0.8
+
+    classifier_threshold: 0.25
+    ignore_classes: ["negative"]
+
+armor_detector_openvino:
+  ros__parameters:
+    use_sim_time: false
+    use_sensor_data_qos: true
+    debug_mode: false
+    detect_color: 0
+
+    detector:
+      camera_name: "front_industrial_camera"
+      subscribe_compressed: false
+
+      # Model
+      model_path: $(find-pkg-share pb2025_infantry_bringup)/model/opt-1208-001.onnx
+      device_type: "AUTO"
+      confidence_threshold: 0.25
+      top_k: 128
+      nms_threshold: 0.3
+
+armor_tracker:
+  ros__parameters:
+    use_sim_time: false
+    target_frame: chassis
+    max_armor_distance: 10.0
+
+    ekf:
+      sigma2_q_xyz: 0.05
+      sigma2_q_yaw: 5.0
+      sigma2_q_r: 80.0
+
+      r_xyz_factor: 0.0004
+      r_yaw: 0.003
+
+    tracker:
+      max_match_distance: 0.5
+      max_match_yaw_diff: 1.0
+
+      tracking_thres: 5
+      lost_time_thres: 1.0
+
+projectile_motion:
+  ros__parameters:
+    use_sim_time: false
+    projectile:
+      offset_pitch: 0.0
+      offset_yaw: 0.0
+      offset_time: 0.15
+      initial_speed: 20.0
+      target_frame: "gimbal_pitch"              # gimbal frame_id
+      target_topic: "tracker/target"
+      gimbal_cmd_topic: "cmd_gimbal"
+      shoot_cmd_topic: "cmd_shoot"
+      solver_type: "gravity"                    # projectile solve method: gravity / gaf
+      # friction: 0.001                         # Air resistance factor if use GAF solver

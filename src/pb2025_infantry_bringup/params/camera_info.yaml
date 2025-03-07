@@ -1,0 +1,28 @@
+# bubing 8mm 20250219
+
+image_width: 1440
+image_height: 1080
+camera_name: front_industrial_camera
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [2428.31145,    0.     ,  718.4377 ,
+            0.     , 2427.59568,  575.7956 ,
+            0.     ,    0.     ,    1.     ]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.014328, 0.091536, 0.000266, -0.001464, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1., 0., 0.,
+         0., 1., 0.,
+         0., 0., 1.]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [2427.81139,    0.     ,  717.35264,    0.     ,
+            0.     , 2429.06089,  575.9087 ,    0.     ,
+            0.     ,    0.     ,    1.     ,    0.     ]
